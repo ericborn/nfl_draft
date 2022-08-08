@@ -47,15 +47,36 @@ offensive_score_list = [pass_rush_df['player'], pass_rush_df['pos'],
                                                                          (point_scale_df['type'] == 'fumble_lost'), 'points']).values,
                         pass_rush_df['offensive_fumble_recovery_td']*(point_scale_df.loc[(point_scale_df['category'] == 'offense') & 
                                                                                          (point_scale_df['type'] == 'fumble_td'), 'points']).values]
-# TODO
-# creating columns as rows and vice versa, need to flip
-score_df = pd.DataFrame(offensive_score_list)
-# pd.melt(score_df, id_vars = ['player', 'pos', 'game_id', 'pass_yds', 'pass_td', 
-#                          'pass_int', 'rush_yds', 'rush_td', 'rec', 'rec_yds',
-#                          'rec_td', 'two_point_conv', 'fumbles_lost',
-#                          'offensive_fumble_recovery_td'])
+# set the name of each series
+offensive_score_list[0].name = 'player'
+offensive_score_list[1].name = 'pos'
+offensive_score_list[2].name = 'game_id'
+offensive_score_list[3].name = 'pass_yds'
+offensive_score_list[4].name = 'pass_rd'
+offensive_score_list[5].name = 'pass_int'
+offensive_score_list[6].name = 'rush_yds'
+offensive_score_list[7].name = 'rush_td'
+offensive_score_list[8].name = 'rec'
+offensive_score_list[9].name = 'rec_yds'
+offensive_score_list[10].name = 'rec_td'
+offensive_score_list[11].name = 'two_point_conv'
+offensive_score_list[12].name = 'fumbles_lost'
+offensive_score_list[13].name = 'offensive_fumble_recovery_td'
+
+# concat all series into a dataframe
+score_df = pd.concat([offensive_score_list[0],offensive_score_list[1],
+           offensive_score_list[2],offensive_score_list[3],
+           offensive_score_list[4],offensive_score_list[5],
+           offensive_score_list[6],offensive_score_list[7],
+           offensive_score_list[8],offensive_score_list[9],
+           offensive_score_list[10],offensive_score_list[11],
+           offensive_score_list[12],offensive_score_list[13]], axis=1)
 
 # calculate avg points scored per game, total season points
+for name in score_df['player'].unique():
+    print(name)
+    score_df['pass_yds'].mean(score_df.loc[score_df['player'] == name])
+
 
 # filter data down to regular season games
 
